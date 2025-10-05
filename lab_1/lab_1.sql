@@ -2,7 +2,7 @@ DROP SCHEMA IF EXISTS lab1 CASCADE;
 CREATE SCHEMA lab1;
 SET search_path = lab1;
 
--- Таблицы
+-- таблицы
 CREATE TABLE employees(
     fio TEXT PRIMARY KEY
 );
@@ -31,3 +31,11 @@ CREATE TABLE employment(
         REFERENCES departments(dept_name, dept_no),
     CONSTRAINT pk_employment PRIMARY KEY (fio, dept_no, position)
 );
+
+-- роли
+CREATE ROLE role_head NOINHERIT;
+CREATE ROLE role_employee NOINHERIT;
+
+CREATE ROLE alice LOGIN PASSWORD 'alice'; -- начальник отдела 1
+CREATE ROLE bob LOGIN PASSWORD 'bob'; -- начальник отдела 2
+CREATE ROLE cristian LOGIN PASSWORD 'cristian'; -- сотрудник отделов 1 и 2
