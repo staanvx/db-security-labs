@@ -33,9 +33,18 @@ CREATE TABLE employment(
 );
 
 -- роли
+DROP ROLE IF EXISTS role_head;
+DROP ROLE IF EXISTS role_employee;
+
+DROP ROLE IF EXISTS alice;
+DROP ROLE IF EXISTS bob;
+DROP ROLE IF EXISTS cristian;
+
 CREATE ROLE role_head NOINHERIT;
 CREATE ROLE role_employee NOINHERIT;
 
 CREATE ROLE alice LOGIN PASSWORD 'alice'; -- начальник отдела 1
 CREATE ROLE bob LOGIN PASSWORD 'bob'; -- начальник отдела 2
 CREATE ROLE cristian LOGIN PASSWORD 'cristian'; -- сотрудник отделов 1 и 2
+
+
