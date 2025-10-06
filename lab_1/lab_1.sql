@@ -152,7 +152,7 @@ USING (
     )
 );
 
--- начальник может изменять строки своего отдела
+-- начальник может изменять строки только своего отдела
 CREATE POLICY p_emp_head_update ON lab1.employment
 FOR UPDATE TO role_head
 USING (
