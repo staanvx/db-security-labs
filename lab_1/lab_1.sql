@@ -39,6 +39,7 @@ DROP ROLE IF EXISTS role_employee;
 DROP ROLE IF EXISTS alice;
 DROP ROLE IF EXISTS bob;
 DROP ROLE IF EXISTS cristian;
+DROP ROLE IF EXISTS denis;
 
 CREATE ROLE role_head NOINHERIT;
 CREATE ROLE role_employee NOINHERIT;
@@ -46,9 +47,10 @@ CREATE ROLE role_employee NOINHERIT;
 CREATE ROLE alice LOGIN PASSWORD 'alice'; -- начальник отдела 1
 CREATE ROLE bob LOGIN PASSWORD 'bob'; -- начальник отдела 2
 CREATE ROLE cristian LOGIN PASSWORD 'cristian'; -- сотрудник отделов 1 и 2
+CREATE ROLE denis LOGIN PASSWORD 'denis'; -- сотрудник отделов 1
 
 GRANT role_head     TO alice, bob;
-GRANT role_employee TO alice, bob, cristian;
+GRANT role_employee TO cristian, denis;
 
 --- права ---
 REVOKE ALL ON SCHEMA lab1 FROM PUBLIC;
@@ -73,7 +75,7 @@ GRANT UPDATE (position, descriptor) ON lab1.employment TO role_head;
 
 --- тестовые данные ---
 INSERT INTO lab1.employees (fio) VALUES
-    ('Alice'), ('Bob'), ('Cristian');
+    ('Alice'), ('Bob'), ('Cristian'), ('Denis');
 
 INSERT INTO lab1.departments (dept_name, dept_no, head_fio, positions_total, wage_fund, positions_occupied) VALUES
     ('Отдел 1', 1, 'Alice',    5.00, 1000000.00, 4.00),
@@ -83,7 +85,8 @@ INSERT INTO lab1.employment (fio, dept_name, dept_no, share, position, descripto
     ('Cristian','Отдел 1', 1, 0.60, 'Инженер',          'Backend'),
     ('Cristian','Отдел 2', 2, 0.40, 'QA-аналитик',      'Автотесты'),
     ('Alice',   'Отдел 1', 1, 1.00, 'Начальник отдела', 'Руководство'),
-    ('Bob',     'Отдел 2', 2, 1.00, 'Начальник отдела', 'Руководство');
+    ('Bob',     'Отдел 2', 2, 1.00, 'Начальник отдела', 'Руководство'),
+    ('Denis',   'Отдел 1', 1, 1.00, 'Инженер',          'Frontend');
 
 CREATE TABLE lab1.auth_user(
     login_name text PRIMARY KEY,
@@ -91,10 +94,13 @@ CREATE TABLE lab1.auth_user(
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+GRANT SELECT ON lab1.auth_user TO role_head, role_employee;
+
 INSERT INTO lab1.auth_user(login_name, fio) VALUES
     ('alice',   'Alice'),
     ('bob',     'Bob'),
-    ('cristian','Cristian')
+    ('cristian','Cristian'),
+    ('denis',   'Denis')
 ON CONFLICT (login_name) DO NOTHING;
 
 --- политики ---
