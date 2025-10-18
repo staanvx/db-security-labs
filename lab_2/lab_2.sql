@@ -32,3 +32,8 @@ CREATE TABLE employment(
     CONSTRAINT pk_employment PRIMARY KEY (fio, dept_no, position)
 );
 
+CREATE TABLE auth_user(
+    login_name text PRIMARY KEY,
+    fio        text NOT NULL UNIQUE REFERENCES lab2.employees(fio)
+        ON UPDATE CASCADE ON DELETE CASCADE
+);
