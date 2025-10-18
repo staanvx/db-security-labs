@@ -1,0 +1,12 @@
+connections:
+  - driver: postgresql
+    proto: tcp
+    host: 127.0.0.1
+    port: 5432
+    user: stan
+    password: ""
+    dbName: lab_2
+    schema:
+      - lab2
+      - lab1
+      - public
