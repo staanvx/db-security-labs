@@ -1,0 +1,23 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: lab8-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: lab8
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata_lab8:/var/lib/postgresql/data
+      - ./sql:/sql
+      - ./tablespaces:/tablespaces
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d lab8"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  pgdata_lab8:
