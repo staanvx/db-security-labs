@@ -12,12 +12,17 @@ services:
     volumes:
       - pgdata_lab8:/var/lib/postgresql/data
       - ./sql:/sql
-      - ./tablespaces:/tablespaces
+      - ./secure_mount:/tablespaces/secure_space
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d lab8"]
       interval: 5s
       timeout: 5s
       retries: 10
+    command: >
+      postgres
+      -c ssl=on
+      -c ssl_cert_file=/var/lib/postgresql/data/server.crt
+      -c ssl_key_file=/var/lib/postgresql/data/server.key
 
 volumes:
   pgdata_lab8:
