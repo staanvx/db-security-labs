@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: lab9-postgres
+    environment:
+      POSTGRES_DB: lab9
+      POSTGRES_USER: lab9
+      POSTGRES_PASSWORD: lab9
+    ports:
+      - "5439:5432"
+    volumes:
+      - lab9_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lab9 -d lab9"]
+      interval: 2s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  lab9_pgdata:
